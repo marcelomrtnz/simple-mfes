@@ -1,0 +1,7 @@
+.sidebar{
+    border: 1px solid black;
+    padding: 20px;
+    height: 100%;
+    box-sizing: border-box;
+    overflow: auto;
+}

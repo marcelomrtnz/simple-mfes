@@ -1,0 +1,10 @@
+version: '1'
+services:
+  mfe:
+    env_file:
+      - ./.env
+    build: ./
+    volumes:
+      - ./src:/code/src
+    ports:
+     - "8082:8082"

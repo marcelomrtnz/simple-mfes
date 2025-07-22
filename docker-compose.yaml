@@ -1,0 +1,16 @@
+version: '1'
+services:
+  shell-mfe:
+    extends:
+      file: ./shell-mfe/docker-compose.yml
+      service: mfe
+
+  content-mfe:
+    extends:
+      file: ./content-mfe/docker-compose.yml
+      service: mfe
+
+  sidebar-mfe:
+    extends:
+      file: ./sidebar-mfe/docker-compose.yml
+      service: mfe
