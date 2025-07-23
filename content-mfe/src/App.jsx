@@ -5,7 +5,7 @@ import Container from "./shared/ContentContainer";
 import "./index.css";
 
 const App = () => (
-  <div className="container">
+  <div className="container test">
     <Container />
   </div>
 );

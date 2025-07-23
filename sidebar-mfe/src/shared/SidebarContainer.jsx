@@ -2,7 +2,7 @@ import React from "react";
 
 import "./SidebarContainer.css";
 
-const Container = function () {
+const Container = function ( ) {
     const newItemBroadcastChannel = new BroadcastChannel("newItem");
 
     const newItem = () => {
@@ -12,7 +12,7 @@ const Container = function () {
     }
 
     return (
-        <div className="sidebar">
+        <div className="sidebar ">
             <h1>Sidebar MFE</h1>
             <button onClick={() => newItem()}>Add new item</button>
         </div>

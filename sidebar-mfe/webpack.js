@@ -1,16 +1,20 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
+const webpack = require("webpack")
 const deps = require("./package.json").dependencies;
 require('dotenv').config({ path: './.env' }); 
 
 const { withZephyr } = require("zephyr-webpack-plugin");
 
-module.exports = withZephyr({
+module.exports = withZephyr()({
   cache: false,
-  
+  mode: "production",          
+
   output: {
+    chunkFormat: false,
     publicPath: process.env.SIDEBAR_MFE_PUBLIC_PATH + '/',
     crossOriginLoading: 'anonymous',
+    publicPath: "/",
   },
 
   resolve: {
@@ -49,7 +53,19 @@ module.exports = withZephyr({
     ],
   },
 
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        default: false,
+      },
+    },
+    runtimeChunk: false, // Also disable runtime chunk if desired
+  },
+
   plugins: [
+    new webpack.optimize.LimitChunkCountPlugin({
+        maxChunks: 1,
+    }),
     new ModuleFederationPlugin({
       name: "sidebar",
       filename: "remoteEntry.js",

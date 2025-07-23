@@ -1,21 +1,24 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 const deps = require("./package.json").dependencies;
+const webpack = require("webpack")
+
 const path = require('path');
 require('dotenv').config({ path: './.env' }); 
 
 const { withZephyr } = require("zephyr-webpack-plugin");
 
-module.exports = withZephyr({
-    mode: "development",           // make sure you’re in dev mode
+module.exports = withZephyr()({
+    mode: "production",          
   cache: false,
 
   entry: path.resolve(__dirname, 'src', 'index.js'),
   
   output: {
+    chunkFormat: false,
     publicPath: process.env.SHELL_MFE_PUBLIC_PATH + '/',
-    filename: "bundle.js",      // your bundle gets this name
-    path: path.resolve(__dirname, "dist"),
+    filename: "main.js",     
+    // path: path.resolve(__dirname, "dist"),
     publicPath: "/",
     crossOriginLoading: "anonymous",
   },
@@ -38,6 +41,15 @@ module.exports = withZephyr({
     client: {
         overlay: true,             // show build errors directly in the browser
     },
+  },
+
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        default: false,
+      },
+    },
+    runtimeChunk: false, // Also disable runtime chunk if desired
   },
 
   module: {
@@ -64,6 +76,9 @@ module.exports = withZephyr({
   },
 
   plugins: [
+    new webpack.optimize.LimitChunkCountPlugin({
+        maxChunks: 1,
+    }),
     new ModuleFederationPlugin({
       name: "host",
       filename: "remoteEntry.js",

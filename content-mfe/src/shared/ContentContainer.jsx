@@ -11,7 +11,7 @@ const Container = function () {
     });
 
     return (
-        <div className="content">
+        <div className="content ">
             <h1>Content MFE</h1>
 
             {itens.map((item, itemIndex) => (

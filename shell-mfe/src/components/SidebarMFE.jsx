@@ -11,7 +11,7 @@ const SidebarMFEContainer = function(){
             FallbackComponent={ErrorFallback}
             onError={(error, errorInfo) => console.log({ error, errorInfo })}
         >
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<div>Wait... Loading...</div>}>
                 <SidebarMFE />
             </Suspense>
         </ErrorBoundary>

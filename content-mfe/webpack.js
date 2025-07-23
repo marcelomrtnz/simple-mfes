@@ -1,16 +1,27 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
+const webpack = require("webpack")
 const deps = require("./package.json").dependencies;
+
 require('dotenv').config({ path: './.env' }); 
 
 const { withZephyr } = require("zephyr-webpack-plugin");
 
-module.exports = withZephyr({
+const exportConfiguration = withZephyr({
+
+})({
+    
   cache: false,
+  mode: "production",
   
+
+
   output: {
+    chunkFormat: false,
     publicPath: process.env.CONTENT_MFE_PUBLIC_PATH + '/',
-    crossOriginLoading: 'anonymous',
+    // path: path.resolve(__dirname, "dist"),
+    publicPath: "/",
+    crossOriginLoading: "anonymous",
   },
 
   resolve: {
@@ -49,6 +60,15 @@ module.exports = withZephyr({
     ],
   },
 
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        default: false,
+      },
+    },
+    runtimeChunk: false, // Also disable runtime chunk if desired
+  },
+
   plugins: [
     new ModuleFederationPlugin({
       name: "content",
@@ -74,3 +94,7 @@ module.exports = withZephyr({
     }),
   ],
 });
+
+exportConfiguration.then(res => console.log(JSON.stringify(res)))
+
+module.exports = exportConfiguration
